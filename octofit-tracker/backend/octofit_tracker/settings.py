@@ -25,9 +25,11 @@ SECRET_KEY = 'django-insecure-^#^kk_=gfgyp^s$v4=z#vx&^rmg)-0yj5*iwuu&3mk&xry@k_f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
+import os
 # Allow all hosts for development
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+if os.environ.get('CODESPACE_NAME'):
+    ALLOWED_HOSTS.append(f"{os.environ.get('CODESPACE_NAME')}-8000.app.github.dev")
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
@@ -92,10 +94,6 @@ DATABASES = {
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
             'host': 'mongodb://localhost:27017',
-            'username': '',
-            'password': '',
-            'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-1',
         },
     }
 }
