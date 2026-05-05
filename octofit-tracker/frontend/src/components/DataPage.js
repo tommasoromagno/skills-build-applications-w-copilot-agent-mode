@@ -3,16 +3,19 @@ import DataTable from './DataTable';
 
 const BASE_API_URL = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api`;
 
-function DataPage({ title, endpointPath }) {
+function DataPage({ title, endpointPath, endpoint: endpointOverride }) {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
-  const endpoint = `${BASE_API_URL}/${endpointPath}/`;
+  const endpoint = endpointOverride || `${BASE_API_URL}/${endpointPath}/`;
 
   useEffect(() => {
+    console.log(`[${title}] REST API endpoint:`, endpoint);
+
     fetch(endpoint)
       .then((response) => response.json())
       .then((json) => {
+        console.log(`[${title}] fetched data:`, json);
         const items = Array.isArray(json)
           ? json
           : json && Array.isArray(json.results)
